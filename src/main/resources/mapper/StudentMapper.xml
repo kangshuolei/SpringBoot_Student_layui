@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaokang.login_MP.dao.StudentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xiaokang.login_MP.bean.Student">
+        <id column="id" property="id" />
+        <result column="stu_num" property="stuNum" />
+        <result column="stu_name" property="stuName" />
+        <result column="stu_sex" property="stuSex" />
+        <result column="stu_address" property="stuAddress" />
+        <result column="stu_date" property="stuDate" />
+    </resultMap>
+    
+    <resultMap id="SCResultMap" type="com.xiaokang.login_MP.bean.Student">
+    	<id column="id" property="id" />
+        <result column="stu_num" property="stuNum" />
+        <result column="stu_name" property="stuName" />
+        <result column="stu_sex" property="stuSex" />
+        <result column="stu_address" property="stuAddress" />
+        <result column="stu_date" property="stuDate" />
+        <result column="cs_id"  property="csId" />
+        <result column="cs_name"  property="csName" />
+        <result column="cs_tec"  property="csTec" />
+        <result column="cs_sex"  property="csSex" />
+        <result column="cs_description"  property="csDescription" />
+  </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, stu_num, stu_name, stu_sex, stu_address, stu_date
+    </sql>
+    
+    <sql id="SC_Column_List">
+    id, stu_num, stu_name, stu_sex, stu_address, stu_date, cs_id, cs_name, cs_tec, cs_sex, cs_description
+  	</sql>
+  	
+  	
+  	 <select id="getStudentByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    		select 
+    		<include refid="Base_Column_List" />
+    		from view_student_course
+    		where cs_id=#{csId,jdbcType=INTEGER}
+  	</select>
+  
+  
+  <select id="getStudentNotByCourseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    		select 
+    		<include refid="Base_Column_List" />
+    		from student
+			where id not in (
+				select id 
+				from view_student_course
+    			where cs_id=#{csId,jdbcType=INTEGER}
+			)
+  </select>
+  
+  <!-- <select id="selectStudentList" parameterType="com.xiaokang.login_MP.bean.Student" resultMap="BaseResultMap">
+  		select
+  		<include refid="Base_Column_List" />
+  		from student
+  		<where>
+  		<if test="stuNum !=null and stuNum!=''">
+  			and stu_num = #{stuNum,jdbcType=INTEGER} 
+  		</if>
+  		<if test="stuAddress !=null and stuAddress!=''">
+  			and stu_address = #{stuAddress,jdbcType=VARCHAR}
+  		</if>
+  		<if test="stuName !=null and stuName!=''">
+  			and stu_name = #{stuName,jdbcType=VARCHAR}
+  		</if>
+  		</where>
+  		
+  </select> -->
+  	
+  	
+
+</mapper>

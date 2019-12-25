@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaokang.login_MP.dao.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xiaokang.login_MP.bean.User">
+        <id column="ID" property="id" />
+        <result column="u_name" property="uName" />
+        <result column="u_pwd" property="uPwd" />
+        <result column="u_email" property="uEmail" />
+        <result column="u_tel" property="uTel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, u_name, u_pwd, u_email, u_tel
+    </sql> 
+
+</mapper>

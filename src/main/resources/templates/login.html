@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        html,body{
+            height: 100%;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("image/login_bg.png");
+            background-size: cover;
+        }
+    </style>
+    
+    <script src="js/jquery.min.js"></script>
+<script src="/layui/layui.all.js"></script>
+<script src="/js/utils.js"></script>
+<script type="text/javascript" src="/js/jquery-2.2.1.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#btn").click(function() {
+
+			if (uName.value == "") {
+				alert("请输入用户名！");
+				return false;
+			}
+			if (uPwd.value == "") {
+				alert("请输入密码！");
+				return false;
+			}
+			if (tryCode.value == "") {
+				alert("请输入验证码！");
+				return false;
+			}
+			var data = {};
+			data.uName = $("#uName").val();
+			data.uPwd = $("#uPwd").val();
+			data.tryCode = $("#tryCode").val();
+			console.log(data);
+
+			$.ajax({
+				url : "/login",
+				type : "post",
+				contentType : "application/json; charset=utf-8",
+				data : JSON.stringify(data),
+				success : function(result) {
+					console.log(result);
+					if (result.code == "200") {
+						window.location.href = "toMainPage";
+					} else {
+						alert(result.msg);
+						window.location.href = "/";
+					}
+				},
+				error : function(result) {
+					alert("error");
+				}
+			});
+		});
+	});
+</script>
+
+<!-- <script>
+    layui.use(['layer','form'], function () {
+        window.layer = layui.layer;
+        window.form=layui.form;
+        mounted();
+    });
+
+    function mounted(){
+        $('#login-form').submit(function () {
+            location.href="index.html";
+            return false;
+        })
+    }
+
+</script> -->
+</head>
+<body>
+<div class="login-div">
+    <h1>登录</h1>
+    <form id="login-form" action="#">
+        <div class="login-form-item">
+            <input name="uName" id="uName" placeholder="用户名">
+        </div>
+        <div class="login-form-item">
+            <input name="uPwd" id="uPwd" type="password" placeholder="密码">
+        </div>
+	    <div>
+	    
+	    	<div class="login-form-item" style="float:left; margin-right:5px;">
+            	<input name="tryCode" id="tryCode" style="width:185px"  maxlength="4" placeholder="验证码">
+        	</div>
+	    	<div class="login-form-item" style="float:right ">
+				<!-- 后面添加参数起到清除缓存作用 -->
+				<img alt="验证码"
+				onclick="this.src='/defaultKaptcha?d='+new Date()*1"
+				src="/defaultKaptcha" />
+			</div>
+		</div>
+		<input class="btn-login" name="btn" id="btn" type="button" value="登录" /><br>
+		
+    </form>
+</div>
+</body>
+</html>

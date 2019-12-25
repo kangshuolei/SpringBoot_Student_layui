@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layuiAdmin</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+   <div class="demoTable">
+  搜索学号：
+  <div class="layui-inline">
+    <input class="layui-input" name="stuNum"  maxlength="9"  placeholder="请输入9位学号" id="demoReload" autocomplete="off">
+  </div>
+  <button class="layui-btn" id="stuNum_btn" data-type="reload">搜索</button>
+</div>
+ 
+
+<table id="demo" lay-filter="test"></table>
+</body>
+</html>
+<!--顶部操作栏-->
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">确定</button>
+    </div>
+</script>
+<!--每条数据的操作栏-->
+<script src="../js/jquery.min.js"></script>
+<script src="../layui/layui.all.js"></script>
+<script>
+    layui.use(['table', 'layer','form'], function () {
+        window.table = layui.table;
+        window.layer = layui.layer;
+        window.form=layui.form;
+        mounted();
+    });
+
+    /* var csId = [[${csId}]];
+    var type = [[${type}]];
+    alert(csId); */
+    
+    function mounted() {
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , toolbar: '#toolbarDemo'
+            , defaultToolbar: []
+            , url: "/getStudentListByCourse/"+type+"/"+csId //数据接口
+            , page: true //开启分页
+            ,id: 'testReload'
+            , cols: [[ //表头
+                {checkbox: true, LAY_CHECKED: false}
+                , {field: 'id', title: 'ID', sort: true}
+                , {field: 'stuNum', title: '学号',sort: true}
+                , {field: 'stuName', title: '姓名', sort: true}
+                , {field: 'stuSex', title: '性别',sort: true }
+                , {field: 'stuAddress', title: '城市', }
+                , {field: 'stuDate', title: '日期',sort: true }
+                , {fixed: 'right', width: 200, align: 'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+            ]]
+        });
+        
+        
+        $("#stuNum_btn").click(function(){
+        	  
+        	      var demoReload = $('#demoReload');
+        	      console.log(demoReload.val());
+        	      //执行重载
+        	      table.reload('testReload', {
+        	        page: {
+        	          curr: 1 //重新从第 1 页开始
+        	        }
+        	        ,where: {
+        	        		 stuNum: demoReload.val()
+        	        }
+        	      });
+        	   
+        
+        });
+        
+       
+        	  
+        	
+        	  
+        	  
+        	
+        
+        
+        
+    }
+
+</script>

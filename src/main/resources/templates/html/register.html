@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layuiAdmin</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+ 
+
+<table id="demo" lay-filter="test"></table>
+</body>
+</html>
+<!--顶部操作栏-->
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加用户</button>
+        
+    </div>
+</script>
+<!--每条数据的操作栏-->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">重置密码</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+    <!-- 这里同样支持 laytpl 语法，如： -->
+    {{#  if(d.auth > 2){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
+    {{#  } }}
+</script>
+
+
+<script type="text/html" id="restDialog">
+	<form class="layui-form" action="" style="padding: 20px;"   lay-filter="restDialogForm">
+ 		<div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline" >
+                <input type="text"  name="uName" disabled="disabled" style="width:250px;" id="uName" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+		<div class="layui-form-item">
+            <label class="layui-form-label">重置密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="uPwd" style="width:250px;" id="uPwd" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        	</div>
+        </div>
+	</form>
+</script>
+
+
+<script type="text/html" id="addDialog">
+     <form class="layui-form" action="" style="padding: 20px;"   lay-filter="addDialogForm">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="uName" style="width:250px;" id="uName" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+		<div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="uPwd" style="width:250px;" id="uPwd" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+        </div>
+		<div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-inline">
+                <input type="text" name="uEmail" style="width:250px;" id="uEmail" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+        </div>
+        </div>
+
+		<div class="layui-form-item">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="uTel" id="uTel" style="width:250px;" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+        </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限</label>
+            <div class="layui-input-block">
+                <input type="radio"  name="uRank" id="uRank1" value="管理员" title="管理员" checked>
+                <input type="radio" name="uRank" id="uRank2" value="普通用户" title="普通用户">
+            </div>
+        </div>
+
+	<div>
+		<div  style="float:left; margin-right:5px;" >
+            <label class="layui-form-label">验证码</label>
+                <input type="text" name="tryCode" id="tryCode" style="width:135px;" placeholder="请输入验证码" autocomplete="off" class="layui-input">
+ 		</div>
+
+		<div  style="float:left ">
+				<!-- 后面添加参数起到清除缓存作用 -->
+				<img alt="验证码"
+				onclick="this.src='/defaultKaptcha?d='+new Date()*1"
+				src="/defaultKaptcha" />
+		</div>
+	</div>	
+
+    </form>
+</script>
+
+
+<script type="text/html" id="editDialog">
+     <form class="layui-form" action="" style="padding: 20px;"   lay-filter="editDialogForm">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="uName" disabled="disabled" style="width:250px;" id="uName" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+		
+		<div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-inline">
+                <input type="text" name="uEmail" style="width:250px;" id="uEmail" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+        </div>
+        </div>
+
+		<div class="layui-form-item">
+            <label class="layui-form-label">手机号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="uTel" id="uTel" style="width:250px;" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+        </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限</label>
+            <div class="layui-input-block">
+                <input type="radio"  name="uRank" id="uRank1" value="管理员" title="管理员" checked>
+                <input type="radio" name="uRank" id="uRank2" value="普通用户" title="普通用户">
+            </div>
+        </div>
+
+    </form>
+</script>
+
+
+
+<script src="../js/jquery.min.js"></script>
+<script src="../layui/layui.all.js"></script>
+<script>
+    layui.use(['table', 'layer','form'], function () {
+        window.table = layui.table;
+        window.layer = layui.layer;
+        window.form=layui.form;
+        mounted();
+    });
+
+    function mounted() {
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            , toolbar: '#toolbarDemo'
+            , defaultToolbar: []
+            , url: '/getuserList/' //数据接口
+            , page: true //开启分页
+            ,id: 'testReload'
+            , cols: [[ //表头
+                {checkbox: true, LAY_CHECKED: false}
+                , {field: 'id', width:70,title: 'ID', sort: true}
+                , {field: 'uName', title: '用户名',sort: true}
+                , {field: 'uRank', title: '权限', }
+                , {field: 'uEmail', title: '邮箱', sort: true}
+                , {field: 'uTel', title: '手机号',sort: true }
+                , {fixed: 'right', width: 200, align: 'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+            ]]
+        });
+        
+        
+        $("#stuNum_btn").click(function(){
+        	  
+        	      var demoReload = $('#demoReload');
+        	      console.log(demoReload.val());
+        	      //执行重载
+        	      table.reload('testReload', {
+        	        page: {
+        	          curr: 1 //重新从第 1 页开始
+        	        }
+        	        ,where: {
+        	        		 stuNum: demoReload.val()
+        	        }
+        	      });
+        	   
+        
+        });
+        
+       
+        	  
+        	
+        	  
+        	  
+        	
+        
+        
+        
+        //监听事件
+        table.on('toolbar(test)', function (obj) {
+        	
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'add':
+                    //layer.msg('添加');
+                 layer.open({
+                        type: 1,
+                        anim: 4,
+                       
+                        title: '添加用户',
+                        area:['30%','60%'],
+                        content: $('#addDialog').html(), //这里content是一个普通的String
+                        btn: ['确定', '取消'],
+                        success: function (index, layero) {
+                            form.render();
+                            
+                        },
+                        yes: function (index, layero) {
+                        	 //var data = $("#editDialogForm form").serialize();
+                        	 
+                        	 
+                        	 if($("#uName").val() == ""){
+                        		 layer.msg('请输入用户名');
+                        		 return false;
+                        	 }
+                        	 if($("#uPwd").val() == ""){
+                        		 layer.msg('请输入密码');
+                        		 return false;
+                        	 }
+                        	 if($("#uEmail").val() == ""){
+                        		 layer.msg('请选择邮箱');
+                        		 return false;
+                        	 }
+                        	 if($("#uTel").val() == ""){
+                        		 layer.msg('请选择手机号');
+                        		 return false;
+                        	 }
+                        	 if ($("#tryCode").val() == "") {
+                        		 layer.msg("请输入验证码！");
+                 				return false;
+                 			}
+                        	 
+                        	 
+                        	 var data = {};
+                        	 data.uName = $("#uName").val();
+                        	 data.uPwd = $("#uPwd").val();
+                        	 data.uRank = $("input[name='uRank']:checked").val();
+                        	 data.uEmail = $("#uEmail").val();
+                        	 data.uTel = $("#uTel").val();
+                        	 data.tryCode = $("#tryCode").val();
+                        	 
+                        	 $.ajax({
+                        		 url:"/registerinfo",
+                        		 type:"post",
+                        		 contentType: "application/json; charset=utf-8",
+                 				 data:JSON.stringify(data),
+                 				success:function(result){
+                					if(result.code == "200"){
+                						alert(result.msg);
+                						layer.close(index);
+                						$(".layui-laypage-btn").click();
+                					}else{
+                						alert(result.msg);
+                						
+                					}	
+                				},
+                 				 error:function(){
+                 					alert("服务器繁忙，请稍等后再试");
+                 				 }
+                        	 });
+                        },
+                        btn2: function (index, layero) {
+                            //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                   
+                    break;
+                case 'delete':
+                	var str = "";
+                	$(checkStatus.data).each(function(){
+                		str+=this.id+',';
+                	});
+                	str = str.substring(0,str.length-1);
+                    console.log(str);
+                    //alert(str);
+                    if(checkStatus.data.length == 0){
+                		layer.msg('至少选择一项');
+                		return false;
+                	}
+                    layer.confirm('真的删除选中行么', function (index) {
+                    	$.ajax({
+                    		url:"/deletestu/"+str,
+                    		type:"DELETE",
+                      		contentType: "application/json; charset=utf-8",
+                      		success:function(result){
+                      			alert(result);
+                      			layer.close(index);
+                      			window.parent.location.reload();
+                      		},
+                      		error:function(){
+                      			alert("服务器繁忙，请稍后再试");
+                      		}
+                    	});
+                        //layer.close(index);
+                        //向服务端发送删除指令
+                        
+                    });
+                    break;
+            }
+        });
+
+        //监听工具条
+        table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+         	var id = data['id'];
+
+            if (layEvent === 'detail') { //重置密码
+            	 layer.open({
+                     type: 1,
+                     anim: 4,
+                     title: '重置密码',
+                     area:['30%','50%'],
+                     content: $('#restDialog').html(), //这里content是一个普通的String
+                     btn: ['确定', '取消'],
+                     success: function (index, layero) {
+                         form.render();
+                       var data1 ={};
+                       data1.uName = data.uName;
+                         form.val("restDialogForm",data1);
+                     
+                     },
+                     yes: function (index, layero) {
+                     	
+                     	if($("#uPwd").val() == ""){
+                    		 layer.msg('请输入密码');
+                    		 return false;
+                    	 	}
+                     	
+                     	
+                     	
+                     	var datas = {};
+                    	 	datas.uName = $("#uName").val();
+                    	 	datas.uPwd = $("#uPwd").val();
+                    	 	datas.id = id;
+
+                    	 	$.ajax({
+                    	 		url:"/restuser",
+                    	 		type:"PUT",
+                    	 		contentType: "application/json; charset=utf-8",
+                    	 		data:JSON.stringify(datas),
+                    	 		success:function(result){
+                    	 			if(result.code == "200"){
+                    	 				alert(result.msg);
+         							layer.close(index);
+         							$(".layui-laypage-btn").click();
+                    	 			}else{
+                    	 				alert(result.msg);
+                    	 			}
+                    	 		},
+                    	 		error:function(){
+                    	 			alert("服务器繁忙，请稍后再试");
+                    	 		}
+                    	 	});
+                     },
+                     btn2: function (index, layero) {
+                         //return false 开启该代码可禁止点击该按钮关闭
+                     }
+                 });
+            	
+            } else if (layEvent === 'del') { //删除
+                layer.confirm('真的删除行么', function (index) {
+                    //obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    //layer.close(index);
+                    //向服务端发送删除指令
+                    $.ajax({
+                    	url:"/deleteuser/"+id,
+                  		type:"DELETE",
+                  		contentType: "application/json; charset=utf-8",
+                  		success:function(result){
+                  			if(result.code == "200"){
+               	 				alert(result.msg);
+    							layer.close(index);
+    							$(".layui-laypage-btn").click();
+               	 			}else{
+               	 				alert("服务器繁忙，请稍后再试");
+               	 			}
+                  		},
+                  		error:function(){
+                  			alert(result.msg);
+                  		}
+                    });
+                });
+            } else if (layEvent === 'edit') { //编辑
+                //do something
+                layer.open({
+                    type: 1,
+                    anim: 4,
+                    title: '编辑',
+                    area:['30%','50%'],
+                    content: $('#editDialog').html(), //这里content是一个普通的String
+                    btn: ['确定', '取消'],
+                    success: function (index, layero) {
+                        form.render();
+                        form.val("editDialogForm",data);
+                    },
+                    yes: function (index, layero) {
+                    	
+                    	if($("#uEmail").val() == ""){
+                   		 layer.msg('请输入邮箱');
+                   		 return false;
+                   	 	}
+                    	
+                    	if($("#uTel").val() == ""){
+                      		 layer.msg('请输入手机号');
+                      		 return false;
+                      	 }
+                    	
+                    	var datas = {};
+                   	 	datas.uName = $("#uName").val();
+                   	 	datas.uEmail = $("#uEmail").val();
+                   	 	datas.uRank = $("input[name='uRank']:checked").val();
+                   	 	datas.uTel = $("#uTel").val();
+                   	 	datas.id = id;
+
+                   	 	$.ajax({
+                   	 		url:"/updateuser",
+                   	 		type:"PUT",
+                   	 		contentType: "application/json; charset=utf-8",
+                   	 		data:JSON.stringify(datas),
+                   	 		success:function(result){
+                   	 			if(result.code == "200"){
+                   	 				alert(result.msg);
+        							layer.close(index);
+        							$(".layui-laypage-btn").click();
+                   	 			}else{
+                   	 				alert(result.msg);
+                   	 			}
+                   	 		},
+                   	 		error:function(){
+                   	 			alert("服务器繁忙，请稍后再试");
+                   	 		}
+                   	 	});
+                    },
+                    btn2: function (index, layero) {
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+
+                //同步更新缓存对应的值
+                obj.update({
+                    username: '123'
+                    , title: 'xxx'
+                });
+            }
+        });
+
+    }
+
+</script>
